@@ -17,6 +17,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class HelloController implements Observer {
     private Service service;
@@ -65,7 +67,42 @@ public class HelloController implements Observer {
         String password = this.password.getText();
         String email = this.email.getText();
         String name = this.name.getText();
-        service.addUser(username, password, name, email);
+
+        if (username.isEmpty() || password.isEmpty() || email.isEmpty() || name.isEmpty()){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Invalid Credentials");
+            alert.setContentText("Empty Fields");
+            alert.showAndWait();
+            return;
+        }
+
+        String EMAIL_REGEX =
+                "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@" +
+                        "(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+
+        Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
+        Matcher matcher = EMAIL_PATTERN.matcher(email);
+        if (!matcher.matches())
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Invalid Credentials");
+            alert.setContentText("Email invalid!");
+            alert.showAndWait();
+            return;
+        }
+
+        try{
+            service.addUser(username, password, name, email);
+        } catch(Exception e){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Invalid Credentials");
+            alert.setContentText("Username already taken.");
+            alert.showAndWait();
+            return;
+        }
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Success");
         alert.setHeaderText("User created");
