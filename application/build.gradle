@@ -1,0 +1,40 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.13'
+}
+
+group 'iss.group'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()}
+
+sourceCompatibility = '21'
+targetCompatibility = '21'
+
+application {
+    mainModule = 'iss.group.application'
+    mainClass = 'iss.group.application.HelloApplication'
+}
+
+javafx {
+    version = '21'
+    modules = ['javafx.controls', 'javafx.fxml']
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    implementation 'org.hibernate.orm:hibernate-core:6.4.4.Final'
+
+    implementation 'org.hibernate.validator:hibernate-validator:8.0.0.Final'
+    implementation 'org.glassfish:jakarta.el:4.0.2'
+
+    implementation 'org.hibernate.orm:hibernate-community-dialects:6.4.4.Final'
+    runtimeOnly 'org.postgresql:postgresql:42.7.2'
+}
+
+test {
+    useJUnitPlatform()
+}
