@@ -101,7 +101,7 @@ public class AdminController implements Observer {
         } catch (Exception e){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
-            alert.setHeaderText("Error: " + e.getMessage());
+            alert.setHeaderText("Error at save");
             alert.showAndWait();
         }
     }
